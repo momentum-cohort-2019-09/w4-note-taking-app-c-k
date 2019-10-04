@@ -13,12 +13,33 @@ Make tags on notes clickable and update the page to only show notes with that ta
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Notes App</title>
+    <script src="main.js" defer></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h2>Notes</h2>   
+    <h1>Notes</h1>
 
+    <div id="notes"></div>
+<!-- 
     <star><trash><checkbox>win lottery<date and time>
-    buy Idaho or Greenland
+    buy Idaho or Greenland -->
+
+    <div>
+        <form class ="hidden" id="login-form" method="POST">
+            <div id="login-error"></div>
+            <div>
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username">
+            </div>
+            <div>
+                <label for="password">password</label>
+                <input type="text" name="password" id="password">
+            </div>
+
+            <button type="submit">Login</button>
+        </form>
+
+    </div>
 
 </body>
 </html>
