@@ -5,18 +5,18 @@
 // 	"password": "pass"
 // }
 
-listAllNotes
+// listAllNotes
 
-newNote
+// newNote
 
-editNote
+// editNote
 
-deleteNote
+// deleteNote
 
-note:
-    title:
-    text:
-    tags:
+// note:
+//     title:
+//     text:
+//     tags:
 
 const app = {
 
@@ -34,26 +34,120 @@ const app = {
       password: password
     }
     sessionStorage.setItem('username',username)
-    sessionStorage.setItem('username',username)
+    sessionStorage.setItem('password',password)
+  },
+
+  addAuthHeader: function (headers) {
+    if (!headers) { headers ={} }
+    return Object.assign({}, headers, {
+      'Authorization': 'Basic ' + btoa(`${app.data.credentials.username}:${app.data.credentials.password}`)
+    })
+  },
+
+  login: function (username, password) {
+    fetch('https://notes-api.glitch.me/api/notes', {
+      headers: {
+       'Authorization': 'Basic ' + btoa(`${username}:${password}`)
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        this.setCredentials(username, password)
+        this.render ()
+      } else {
+        document.getElementById('login-error').innerText = 'That is not a valid username and password.'
+      }
+    })
+  },
+
+  retrieveNotes: function () {
+    // console.log (username, password)
+    return fetch('https://notes-api.glitch.me/api/notes', {
+      headers: app.addAuthHeader()
+    })
+    .then( response => response.json())
+    .then(notesData => {
+      this.data.notes = notesData.notes
+    })
+    .catch(error => {
+    })
+  },
+
+  notesToHTML: function (note) {
+    // console.log(this.data.notes)
+    return `
+    <div class ="note">
+      
+      <div class = "title">
+        Title: ${note.title}
+      </div>
+      
+      <div class = "noteText">
+        Text: ${note.text}
+      </div>
+
+      <div class = "tags">
+        Tags: ${note.tags}
+      </div>
+      <div class ="timestamp">
+        Timestamp: ${note.updated}
+      </div>
+      <button class ="delete" id="${note._id}">Delete</button>
+    </div>
+  `
+  },
+
+
+  renderNotes: function () {
+    console.log(this.data.notes)
+    document.getElementById('notes').innerHTML = this.data.notes.map(this.notesToHTML).join('\n')
+    console.log('render notes')
   },
 
 
   render: function () {
-    if (!this.data.credentials.username) || !this.data.credentials.password) {
+    if (!this.data.credentials.username || !this.data.credentials.password) {
       showLoginForm()
+    } else {
+      console.log('hide login form')
+      hideLoginForm()
+      this.retrieveNotes().then(() => this.renderNotes())
     }
   }
 }
 
 function showLoginForm () {
-  document.getElementById('login-form')
+  document.getElementById('login-form').classList.remove('hidden')
+  document.getElementById('notes').classList.add('hidden')
 }
+function hideLoginForm () {
+  document.getElementById('login-form').classList.add('hidden')
+  document.getElementById('notes').classList.remove('hidden')
+}
+
 
 function main(){
 
   app.render()
 
-  const
+  const loginForm = document.querySelector('#login-form')
+  loginForm.addEventListener('submit', function (event) {
+    event.preventDefault()
+    const formData = new FormData(loginForm)
+    const username = formData.get('username')
+    const password = formData.get('password')
+    app.login(username, password)
+  })
+
+  document.querySelector('.delete').addEventListener('click', (event) => {
+    event.preventDefault()
+    const noteId = event.target.id
+    console.log(noteId)
+    // fetch('https://notes-api.glitch.me/api/notes/:${noteId}', {
+    //   method: 'DELETE',
+    //   headers: 
+    })
+  
 }
 
 main()
