@@ -20,62 +20,63 @@
 
 const app = {
 
-  data: {
-    credentials: {
-      username: sessionStorage.getItem('username'),
-      password: sessionStorage.getItem('password')
+    data: {
+        credentials: {
+            username: sessionStorage.getItem('username'),
+            password: sessionStorage.getItem('password')
+        },
+        notes: []
     },
-    notes: []
-  },
 
-  setCredentials: function (username,password) {
-    this.data.credentials = {
-      username: username,
-      password: password
-    }
-    sessionStorage.setItem('username',username)
-    sessionStorage.setItem('password',password)
-  },
+    setCredentials: function(username, password) {
+        this.data.credentials = {
+            username: username,
+            password: password
+        }
+        sessionStorage.setItem('username', username)
+        sessionStorage.setItem('password', password)
+    },
 
-  addAuthHeader: function (headers) {
-    if (!headers) { headers ={} }
-    return Object.assign({}, headers, {
-      'Authorization': 'Basic ' + btoa(`${app.data.credentials.username}:${app.data.credentials.password}`)
-    })
-  },
+    addAuthHeader: function(headers) {
+        if (!headers) { headers = {} }
+        return Object.assign({}, headers, {
+            'Authorization': 'Basic ' + btoa(`${app.data.credentials.username}:${app.data.credentials.password}`)
+        })
+    },
 
-  login: function (username, password) {
-    fetch('https://notes-api.glitch.me/api/notes', {
-      headers: {
-       'Authorization': 'Basic ' + btoa(`${username}:${password}`)
-      }
-    })
-    .then(response => {
-      if (response.ok) {
-        this.setCredentials(username, password)
-        this.render ()
-      } else {
-        document.getElementById('login-error').innerText = 'That is not a valid username and password.'
-      }
-    })
-  },
+    login: function(username, password) {
+        fetch('https://notes-api.glitch.me/api/notes', {
+                headers: {
+                    'Authorization': 'Basic ' + btoa(`${username}:${password}`)
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    this.setCredentials(username, password)
+                    this.render()
+                } else {
+                    document.getElementById('login-error').innerText = 'That is not a valid username and password.'
+                }
+            })
+    },
 
-  retrieveNotes: function () {
-    // console.log (username, password)
-    return fetch('https://notes-api.glitch.me/api/notes', {
-      headers: app.addAuthHeader()
-    })
-    .then( response => response.json())
-    .then(notesData => {
-      this.data.notes = notesData.notes
-    })
-    .catch(error => {
-    })
-  },
+    retrieveNotes: function() {
+        // console.log (username, password)
+        return fetch('https://notes-api.glitch.me/api/notes', {
+                headers: app.addAuthHeader()
+            })
+            .then(response => response.json())
+            .then(notesData => {
+                this.data.notes = notesData.notes
+            })
+            .catch(error => {})
+    },
 
-  notesToHTML: function (note) {
-    // console.log(this.data.notes)
-    return `
+
+
+    notesToHTML: function(note) {
+        // console.log(this.data.notes)
+        return `
     <div class ="note">
       
       <div class = "title">
@@ -95,59 +96,61 @@ const app = {
       <button class ="delete" id="${note._id}">Delete</button>
     </div>
   `
-  },
+    },
 
 
-  renderNotes: function () {
-    console.log(this.data.notes)
-    document.getElementById('notes').innerHTML = this.data.notes.map(this.notesToHTML).join('\n')
-    console.log('render notes')
-  },
+
+    renderNotes: function() {
+        console.log(this.data.notes)
+        document.getElementById('notes').innerHTML = this.data.notes.map(this.notesToHTML).join('\n')
+        console.log('render notes')
+    },
 
 
-  render: function () {
-    if (!this.data.credentials.username || !this.data.credentials.password) {
-      showLoginForm()
-    } else {
-      console.log('hide login form')
-      hideLoginForm()
-      this.retrieveNotes().then(() => this.renderNotes())
+    render: function() {
+        if (!this.data.credentials.username || !this.data.credentials.password) {
+            showLoginForm()
+        } else {
+            console.log('hide login form')
+            hideLoginForm()
+            this.retrieveNotes().then(() => this.renderNotes())
+        }
     }
-  }
 }
 
-function showLoginForm () {
-  document.getElementById('login-form').classList.remove('hidden')
-  document.getElementById('notes').classList.add('hidden')
-}
-function hideLoginForm () {
-  document.getElementById('login-form').classList.add('hidden')
-  document.getElementById('notes').classList.remove('hidden')
+function showLoginForm() {
+    document.getElementById('login-form').classList.remove('hidden')
+    document.getElementById('notes').classList.add('hidden')
 }
 
+function hideLoginForm() {
+    document.getElementById('login-form').classList.add('hidden')
+    document.getElementById('notes').classList.remove('hidden')
+}
 
-function main(){
 
-  app.render()
+function main() {
 
-  const loginForm = document.querySelector('#login-form')
-  loginForm.addEventListener('submit', function (event) {
-    event.preventDefault()
-    const formData = new FormData(loginForm)
-    const username = formData.get('username')
-    const password = formData.get('password')
-    app.login(username, password)
-  })
+    app.render()
 
-  document.querySelector('.delete').addEventListener('click', (event) => {
-    event.preventDefault()
-    const noteId = event.target.id
-    console.log(noteId)
-    // fetch('https://notes-api.glitch.me/api/notes/:${noteId}', {
-    //   method: 'DELETE',
-    //   headers: 
+    const loginForm = document.querySelector('#login-form')
+    loginForm.addEventListener('submit', function(event) {
+        event.preventDefault()
+        const formData = new FormData(loginForm)
+        const username = formData.get('username')
+        const password = formData.get('password')
+        app.login(username, password)
     })
-  
+
+    document.querySelector('.delete').addEventListener('click', (event) => {
+        event.preventDefault()
+        const noteId = event.target.id
+        console.log(noteId)
+            // fetch('https://notes-api.glitch.me/api/notes/:${noteId}', {
+            //   method: 'DELETE',
+            //   headers: 
+    })
+
 }
 
 main()

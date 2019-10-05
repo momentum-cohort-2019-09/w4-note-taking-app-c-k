@@ -8,6 +8,7 @@ Make tags on notes clickable and update the page to only show notes with that ta
  -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,32 +17,37 @@ Make tags on notes clickable and update the page to only show notes with that ta
     <script src="main.js" defer></script>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <h1>Notes</h1>
+<style>
 
-    <div id="notes">
-        Notes to come
+</style>
+
+<body>
+    <div id="title">
+        <h1>Notes</h1>
     </div>
-<!-- 
-    <star><trash><checkbox>win lottery<date and time>
+
+    <!-- 
+ <star><trash><checkbox>win lottery<date and time>
     buy Idaho or Greenland -->
 
-    <div>
-        <form class ="hidden" id="login-form" method="POST">
+    <div class="container">
+        <form class="hidden" id="login-form" method="POST">
             <div id="login-error"></div>
-            <div>
+            <div class="formrow">
                 <label for="username">Username</label>
                 <input type="text" name="username" id="username">
             </div>
-            <div>
+            <div class="formrow">
                 <label for="password">Password</label>
                 <input type="text" name="password" id="password">
             </div>
 
             <button type="submit">Login</button>
+            <button type="addnote">Add Note</button>
         </form>
 
     </div>
 
 </body>
+
 </html>
