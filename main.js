@@ -85,7 +85,7 @@ const app = {
     },
 
     deleteNote: function(noteId) {
-        let deleteLink = "https://notes-api.glitch.me/api/notes/:" + noteId
+        let deleteLink = "https://notes-api.glitch.me/api/notes/" + noteId
         console.log(deleteLink)
         return fetch(deleteLink, {
             method: 'DELETE',
