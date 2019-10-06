@@ -81,14 +81,23 @@ const app = {
               })
         })
         .then(response => {})
-        // .then(notesData => {
-            // this.data.notes = notesData.notes
-        // })
+        .catch(error => {})
+    },
+
+    deleteNote: function(noteId) {
+        let deleteLink = "https://notes-api.glitch.me/api/notes/:" + noteId
+        console.log(deleteLink)
+        return fetch(deleteLink, {
+            method: 'DELETE',
+            headers: this.addAuthHeader({
+                'Content-Type': 'application/json'
+              })
+        })
+        .then(response => {})
         .catch(error => {})
     },
 
     notesToHTML: function(note) {
-        // console.log(this.data.notes)
         return `
     <div class ="note">
       
@@ -106,12 +115,12 @@ const app = {
       <div class ="timestamp">
         Timestamp: ${note.updated}
       </div>
-      <button class ="delete" id="${note._id}">Delete</button>
+      <button class ="delete" id="${note._id}" >Delete</button>
     </div>
   `
     },
 
-
+    // onclick = "deleteNote(${note._id})"
 
     renderNotes: function() {
         console.log(this.data.notes)
@@ -171,13 +180,20 @@ function main() {
         app.render()
     })
 
-    // document.querySelector('.delete').addEventListener('click', (event) => {
+    const deleteBtn = document.getElementById('notes')
+    deleteBtn.addEventListener('click', function (event) {
+        event.preventDefault()
+        const noteId = event.target.id
+        console.log(noteId)
+        app.deleteNote(noteId)
+        app.retrieveNotes()
+        app.render() 
+    })
+
+    // document.getElementById('delete').addEventListener('click', (event) => {
     //     event.preventDefault()
-    //     const noteId = event.target.id
-    //     console.log(noteId)
-    //         // fetch('https://notes-api.glitch.me/api/notes/:${noteId}', {
-    //         //   method: 'DELETE',
-    //         //   headers: 
+
+
     // })
 
 }
