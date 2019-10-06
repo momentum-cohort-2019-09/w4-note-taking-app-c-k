@@ -72,7 +72,19 @@ const app = {
             .catch(error => {})
     },
 
-
+    // addNote: function() {
+    //     console.log(title, text)
+    //     return fetch('https://notes-api.glitch.me/api/notes', {
+    //         method: 'POST',
+    //         body: JSON.stringify(title,text),
+    //         headers: app.addAuthHeader()
+    //     })
+    //     .then(response => {})
+    //     // .then(notesData => {
+    //         // this.data.notes = notesData.notes
+    //     // })
+    //     .catch(error => {})
+    // },
 
     notesToHTML: function(note) {
         // console.log(this.data.notes)
@@ -102,7 +114,7 @@ const app = {
 
     renderNotes: function() {
         console.log(this.data.notes)
-        document.getElementById('notes').innerHTML = this.data.notes.map(this.notesToHTML).join('\n')
+        document.getElementById('notes').innerHTML = document.getElementById('notes').innerHTML + this.data.notes.map(this.notesToHTML).join('\n')
         console.log('render notes')
     },
 
@@ -142,14 +154,26 @@ function main() {
         app.login(username, password)
     })
 
-    document.querySelector('.delete').addEventListener('click', (event) => {
+    const notesForm = document.querySelector('#notes-form')
+    notesForm.addEventListener('submit', function(event) {
         event.preventDefault()
-        const noteId = event.target.id
-        console.log(noteId)
-            // fetch('https://notes-api.glitch.me/api/notes/:${noteId}', {
-            //   method: 'DELETE',
-            //   headers: 
+        const notesFormData = new FormData(notesForm)
+        const title = notesFormData.get('title')
+        const text = notesFormData.get('note-text')
+        // app.login(username, password)
+        console.log(title,text)
+        // app.addNote(title,text)
+        // app.render()
     })
+
+    // document.querySelector('.delete').addEventListener('click', (event) => {
+    //     event.preventDefault()
+    //     const noteId = event.target.id
+    //     console.log(noteId)
+    //         // fetch('https://notes-api.glitch.me/api/notes/:${noteId}', {
+    //         //   method: 'DELETE',
+    //         //   headers: 
+    // })
 
 }
 
