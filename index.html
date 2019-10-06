@@ -15,22 +15,24 @@ Make tags on notes clickable and update the page to only show notes with that ta
  </head>
  <body>
      <h1>Notes</h1>
+
+     <form class ="hidden" id="notes-form" method="POST">
+        <div id="notes-error"></div>
+        <div>
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title">
+        </div>
+        <div>
+            <label for="note-text">Text</label>
+            <input type="text" name="note-text" id="note-text">
+        </div>
+
+        <button type="submit">Add note</button>
+    </form>
  
      <div id="notes">
 
-         <form class ="" id="notes-form" method="POST">
-            <div id="notes-error"></div>
-            <div>
-                <label for="title">Title</label>
-                <input type="text" name="title" id="title">
-            </div>
-            <div>
-                <label for="note-text">Text</label>
-                <input type="text" name="note-text" id="note-text">
-            </div>
-
-            <button type="submit">Add note</button>
-        </form>
+         
     </div>
  <!-- 
      <star><trash><checkbox>win lottery<date and time>

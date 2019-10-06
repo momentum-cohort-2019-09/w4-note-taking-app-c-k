@@ -72,19 +72,20 @@ const app = {
             .catch(error => {})
     },
 
-    // addNote: function() {
-    //     console.log(title, text)
-    //     return fetch('https://notes-api.glitch.me/api/notes', {
-    //         method: 'POST',
-    //         body: JSON.stringify(title,text),
-    //         headers: app.addAuthHeader()
-    //     })
-    //     .then(response => {})
-    //     // .then(notesData => {
-    //         // this.data.notes = notesData.notes
-    //     // })
-    //     .catch(error => {})
-    // },
+    addNote: function(title, text) {
+        return fetch('https://notes-api.glitch.me/api/notes', {
+            method: 'POST',
+            body: JSON.stringify({"title": title, "text": text}),
+            headers: this.addAuthHeader({
+                'Content-Type': 'application/json'
+              })
+        })
+        .then(response => {})
+        // .then(notesData => {
+            // this.data.notes = notesData.notes
+        // })
+        .catch(error => {})
+    },
 
     notesToHTML: function(note) {
         // console.log(this.data.notes)
@@ -114,7 +115,8 @@ const app = {
 
     renderNotes: function() {
         console.log(this.data.notes)
-        document.getElementById('notes').innerHTML = document.getElementById('notes').innerHTML + this.data.notes.map(this.notesToHTML).join('\n')
+        // document.getElementById('notes').innerHTML = document.getElementById('notes').innerHTML + this.data.notes.map(this.notesToHTML).join('\n')
+        document.getElementById('notes').innerHTML = this.data.notes.map(this.notesToHTML).join('\n')
         console.log('render notes')
     },
 
@@ -133,11 +135,13 @@ const app = {
 function showLoginForm() {
     document.getElementById('login-form').classList.remove('hidden')
     document.getElementById('notes').classList.add('hidden')
+    document.getElementById('notes-form').classList.add('hidden')
 }
 
 function hideLoginForm() {
     document.getElementById('login-form').classList.add('hidden')
     document.getElementById('notes').classList.remove('hidden')
+    document.getElementById('notes-form').classList.remove('hidden')
 }
 
 
@@ -161,9 +165,10 @@ function main() {
         const title = notesFormData.get('title')
         const text = notesFormData.get('note-text')
         // app.login(username, password)
-        console.log(title,text)
-        // app.addNote(title,text)
-        // app.render()
+        console.log(title, text)
+        app.addNote(title,text)
+        app.retrieveNotes()
+        app.render()
     })
 
     // document.querySelector('.delete').addEventListener('click', (event) => {
