@@ -3,57 +3,63 @@ The API you will use to retrieve and store your notes is https://notes-api.glitc
 Bonus steps
 Make tags on notes clickable and update the page to only show notes with that tag. If you implement this, you'll need to indicate you're looking at a view of only that tag and have a way to get back to the full list.
  -->
- <!DOCTYPE html>
- <html lang="en">
- <head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-     <title>Notes App</title>
-     <script src="main.js" defer></script>
-     <link rel="stylesheet" href="style.css">
- </head>
- <body>
-     <h1>Notes</h1>
+<!DOCTYPE html>
+<html lang="en">
 
-     <form class ="hidden" id="notes-form" method="POST">
-        <div id="notes-error"></div>
-        <div>
-            <label for="title">Title</label>
-            <input type="text" name="title" id="title">
-        </div>
-        <div>
-            <label for="note-text">Text</label>
-            <input type="text" name="note-text" id="note-text">
-        </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Notes App</title>
+    <script src="main.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+</head>
 
-        <button type="submit">Add note</button>
-    </form>
- 
-     <div id="notes">
+<body>
+    <header class="site header">
+        <h1>Notes</h1>
+    </header>
 
-         
+    <div class="container">
+        <form class="hidden" id="notes-form" method="POST">
+            <div id="notes-error"></div>
+            <div>
+                <label for="title">Title</label>
+                <input type="text" name="title" id="title">
+            </div>
+            <div>
+                <label for="note-text">Text</label>
+                <input type="text" name="note-text" id="note-text">
+            </div>
+
+            <button type="submit">Add note</button>
+        </form>
     </div>
- <!-- 
+    <div id="notes">
+
+
+    </div>
+    <!-- 
      <star><trash><checkbox>win lottery<date and time>
      buy Idaho or Greenland -->
- 
-     <div>
-         <form class ="hidden" id="login-form" method="POST">
-             <div id="login-error"></div>
-             <div>
-                 <label for="username">Username</label>
-                 <input type="text" name="username" id="username">
-             </div>
-             <div>
-                 <label for="password">Password</label>
-                 <input type="text" name="password" id="password">
-             </div>
- 
-             <button type="submit">Login</button>
-         </form>
- 
-     </div>
- 
- </body>
- </html>
+
+    <div>
+        <form class="hidden" id="login-form" method="POST">
+            <div id="login-error"></div>
+            <div>
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username">
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input type="text" name="password" id="password">
+            </div>
+
+            <button type="submit">Login</button>
+        </form>
+
+    </div>
+
+</body>
+
+</html>
